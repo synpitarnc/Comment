@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>အကြံပြုချက် ပေးပို့ရန်</title>
+<style>
+  :root{
+    --primary:#b45309;
+    --primary-dark:#92400e;
+    --bg:#f4f6f7;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --error:#dc2626;
+    --success:#16a34a;
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body{
+    margin:0;
+    font-family:"Padauk","Noto Sans Myanmar","Myanmar Text",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+    padding:calc(24px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
+    min-height:100vh;
+    min-height:100dvh;
+  }
+  .card{
+    background:var(--card);
+    width:100%;
+    max-width:520px;
+    border-radius:16px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    padding:28px 24px;
+  }
+  h1{ font-size:22px; margin:0 0 4px; color:var(--primary-dark); }
+  p.subtitle{ margin:0 0 24px; color:var(--muted); font-size:14px; }
+  label{ display:block; font-size:14px; font-weight:600; margin-bottom:6px; margin-top:16px; }
+  input[type="text"], input[type="tel"], textarea{
+    width:100%; padding:13px 14px; border:1px solid #d1d5db; border-radius:10px;
+    font-size:16px; font-family:inherit; background:#fafafa;
+    -webkit-appearance:none; appearance:none;
+  }
+  input:focus, textarea:focus{ outline:none; border-color:var(--primary); background:#fff; }
+  textarea{ resize:vertical; min-height:80px; }
+  .required{ color:var(--error); }
+
+  .rating-block{
+    margin-top:20px;
+    padding:14px;
+    background:#fafafa;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+  }
+  .rating-question{ font-weight:600; font-size:14px; margin-bottom:10px; }
+  .rating-options{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+  .rating-options label{
+    margin:0; text-align:center; font-weight:400;
+    padding:12px 0; border:1px solid #d1d5db; border-radius:10px;
+    cursor:pointer; background:#fff; font-size:16px; user-select:none;
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+    min-height:44px; display:flex; align-items:center; justify-content:center;
+  }
+  .rating-options input[type="radio"]{ display:none; }
+  .rating-options input[type="radio"]:checked + label{
+    background:var(--primary); color:#fff; border-color:var(--primary);
+  }
+  .rating-caption{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:6px; }
+
+  button{
+    margin-top:26px; width:100%; padding:14px; background:var(--primary); color:#fff;
+    border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit;
+    -webkit-appearance:none; appearance:none; touch-action:manipulation; min-height:48px;
+  }
+  button:disabled{ opacity:0.6; cursor:not-allowed; }
+  button:hover:not(:disabled){ background:var(--primary-dark); }
+  .msg{ margin-top:16px; padding:12px 14px; border-radius:10px; font-size:14px; display:none; }
+  .msg.success{ background:#dcfce7; color:var(--success); display:block; }
+  .msg.error{ background:#fee2e2; color:var(--error); display:block; }
+
+  @media (min-width:700px){
+    .card{ padding:36px 44px; }
+  }
+  @media (max-width:340px){
+    .card{ padding:20px 14px; }
+    h1{ font-size:20px; }
+    .rating-options{ gap:4px; }
+    .rating-options label{ padding:10px 0; font-size:14px; min-height:40px; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>အကြံပြုချက် ပေးပို့ရန်</h1>
+  <p class="subtitle">သင့်အတွေ့အကြုံကို မျှဝေပေးပါ</p>
+
+  <form id="fbForm">
+    <label for="name">အမည် <span class="required">*</span></label>
+    <input type="text" id="name" name="name" required autocomplete="name" placeholder="အမည်အပြည့်အစုံ">
+
+    <label for="phone">ဖုန်းနံပါတ် <span class="required">*</span></label>
+    <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="09xxxxxxxxx">
+
+    <!-- Rating 1: Speed of loan approval -->
+    <div class="rating-block">
+      <div class="rating-question">၁။ ချေးငွေလျှောက်ထား/အတည်ပြုမှု အလျင်အမြန် <span class="required">*</span></div>
+      <div class="rating-options" data-name="rating1"></div>
+      <div class="rating-caption"><span>အားနည်း</span><span>အကောင်းဆုံး</span></div>
+    </div>
+
+    <!-- Rating 2: Clarity of terms & interest rate -->
+    <div class="rating-block">
+      <div class="rating-question">၂။ စည်းကမ်းချက်နှင့် အတိုးနှုန်း ရှင်းလင်းပြတ်သားမှု <span class="required">*</span></div>
+      <div class="rating-options" data-name="rating2"></div>
+      <div class="rating-caption"><span>အားနည်း</span><span>အကောင်းဆုံး</span></div>
+    </div>
+
+    <!-- Rating 3: Staff courtesy -->
+    <div class="rating-block">
+      <div class="rating-question">၃။ ဝန်ထမ်းများ၏ ယဉ်ကျေးသိမ်မွေ့မှု <span class="required">*</span></div>
+      <div class="rating-options" data-name="rating3"></div>
+      <div class="rating-caption"><span>အားနည်း</span><span>အကောင်းဆုံး</span></div>
+    </div>
+
+    <!-- Rating 4: Ease of application process -->
+    <div class="rating-block">
+      <div class="rating-question">၄။ လျှောက်ထားခြင်း အဆင့်ဆင့် လွယ်ကူမှု <span class="required">*</span></div>
+      <div class="rating-options" data-name="rating4"></div>
+      <div class="rating-caption"><span>အားနည်း</span><span>အကောင်းဆုံး</span></div>
+    </div>
+
+    <!-- Rating 5: Overall satisfaction -->
+    <div class="rating-block">
+      <div class="rating-question">၅။ စုစုပေါင်း ကျေနပ်မှု <span class="required">*</span></div>
+      <div class="rating-options" data-name="rating5"></div>
+      <div class="rating-caption"><span>အားနည်း</span><span>အကောင်းဆုံး</span></div>
+    </div>
+
+    <label for="suggestion">၆။ အခြားအကြံပြုစရာများ (ရှိလျှင်)</label>
+    <textarea id="suggestion" name="suggestion" placeholder="သင့်အကြံပြုချက်ကို ရေးပါ..."></textarea>
+
+    <button type="submit" id="submitBtn">ပေးပို့မည်</button>
+    <div class="msg" id="msgBox"></div>
+  </form>
+</div>
+
+<script>
+  // ============================================================
+  // ▼▼▼ ဒီနေရာတွင် Google Apps Script Web App URL ကို ထည့်ပါ ▼▼▼
+  // PUT YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (from Code.gs deployment):
+  const GAS_URL = "PUT_YOUR_GAS_DEPLOYMENT_URL_HERE";
+  // ▲▲▲ ▲▲▲ ▲▲▲
+  // ============================================================
+
+  // Build the 1-5 rating buttons for each .rating-options container
+  document.querySelectorAll('.rating-options').forEach(function (container) {
+    var name = container.getAttribute('data-name');
+    for (var i = 1; i <= 5; i++) {
+      var id = name + '_' + i;
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = name;
+      input.id = id;
+      input.value = i;
+      input.required = true;
+
+      var label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.textContent = i;
+
+      container.appendChild(input);
+      container.appendChild(label);
+    }
+  });
+
+  const form = document.getElementById('fbForm');
+  const btn = document.getElementById('submitBtn');
+  const msgBox = document.getElementById('msgBox');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msgBox.className = 'msg';
+    msgBox.textContent = '';
+
+    if (GAS_URL.indexOf('PUT_YOUR_GAS') === 0) {
+      msgBox.className = 'msg error';
+      msgBox.textContent = 'GAS_URL ကို code ထဲတွင် ဦးစွာ ထည့်ပေးပါ (<script> အထဲက comment ကြည့်ပါ)';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'ပို့နေသည်...';
+
+    const formData = new FormData(form);
+
+    // NOTE: mode:'no-cors' means we cannot read the actual server response
+    // (Google Apps Script + static hosting like GitHub Pages = cross-origin).
+    // The request still reaches the Apps Script and writes to the Sheet;
+    // we just show an optimistic success message once fetch resolves.
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    })
+      .then(function () {
+        msgBox.className = 'msg success';
+        msgBox.textContent = 'သင်၏ အကြံပြုချက်ကို ကျေးဇူးတင်ပါသည်။';
+        form.reset();
+      })
+      .catch(function (err) {
+        msgBox.className = 'msg error';
+        msgBox.textContent = 'အမှားတစ်ခုဖြစ်ပွားပါသည်။ ထပ်မံကြိုးစားပေးပါ။';
+        console.error(err);
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = 'ပေးပို့မည်';
+      });
+  });
+</script>
+</body>
+</html>
