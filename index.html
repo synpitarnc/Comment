@@ -82,6 +82,71 @@
   .msg.success{ background:#dcfce7; color:var(--success); display:block; }
   .msg.error{ background:#fee2e2; color:var(--error); display:block; }
 
+  /* Thank-you popup: stays open until the customer taps the close button */
+  .modal-overlay{
+    display:none;
+    position:fixed;
+    top:0; left:0; right:0; bottom:0;
+    background:rgba(15,23,42,0.55);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:#fff;
+    border-radius:16px;
+    max-width:420px;
+    width:100%;
+    padding:28px 24px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,0.25);
+  }
+  .modal-icon{
+    width:56px;
+    height:56px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:#dcfce7;
+    color:var(--success);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:700;
+  }
+  .modal-title{
+    font-size:19px;
+    font-weight:700;
+    color:var(--primary-dark);
+    margin:0 0 12px;
+  }
+  .modal-text{
+    font-size:14px;
+    color:var(--text);
+    line-height:1.7;
+    margin:0 0 22px;
+    text-align:left;
+  }
+  .modal-close-btn{
+    width:100%;
+    padding:13px;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    -webkit-appearance:none;
+    appearance:none;
+    touch-action:manipulation;
+    min-height:48px;
+  }
+  .modal-close-btn:hover{ background:var(--primary-dark); }
+
   @media (min-width:700px){
     .card{ padding:36px 44px; }
   }
@@ -90,6 +155,7 @@
     h1{ font-size:20px; }
     .rating-options{ gap:4px; }
     .rating-options label{ padding:10px 0; font-size:14px; min-height:40px; }
+    .modal-box{ padding:22px 18px; }
   }
 </style>
 </head>
@@ -146,6 +212,20 @@
     <button type="submit" id="submitBtn">ပေးပို့မည်</button>
     <div class="msg" id="msgBox"></div>
   </form>
+</div>
+
+<!-- Thank-you popup: shown after submitting feedback, stays open until the customer taps ပိတ်မည် (Close) -->
+<div class="modal-overlay" id="successModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-icon">&#10003;</div>
+    <h2 class="modal-title" id="modalTitle">ကျေးဇူးတင်ပါသည်</h2>
+    <p class="modal-text">
+      သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။<br><br>
+      ကျွန်ုပ်တို့၏ ဝန်ဆောင်မှုများကို ပိုမိုကောင်းမွန်အောင် တိုးတက်အောင်ဆောင်ရွက်ရာတွင်
+      သင့်အကြံပြုချက်ကို အသုံးပြုသွားပါမည်။
+    </p>
+    <button type="button" id="modalCloseBtn" class="modal-close-btn">ပိတ်မည်</button>
+  </div>
 </div>
 
 <script>
