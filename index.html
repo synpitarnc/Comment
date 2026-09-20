@@ -260,6 +260,21 @@
   const form = document.getElementById('fbForm');
   const btn = document.getElementById('submitBtn');
   const msgBox = document.getElementById('msgBox');
+  const successModal = document.getElementById('successModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+  function openSuccessModal() {
+    successModal.classList.add('open');
+    successModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSuccessModal() {
+    successModal.classList.remove('open');
+    successModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  // ปิดได้เฉพาะตอนกดปุ่ม "ปิดမည်" เท่านั้น (ไม่ปิดเมื่อคลิกพื้นหลัง)
+  modalCloseBtn.addEventListener('click', closeSuccessModal);
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -287,9 +302,8 @@
       body: formData
     })
       .then(function () {
-        msgBox.className = 'msg success';
-        msgBox.textContent = 'သင်၏ အကြံပြုချက်ကို ကျေးဇူးတင်ပါသည်။';
         form.reset();
+        openSuccessModal();
       })
       .catch(function (err) {
         msgBox.className = 'msg error';
